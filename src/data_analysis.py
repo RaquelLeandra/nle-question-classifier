@@ -59,10 +59,11 @@ def report_data_analysis(path):
     plot_most_common_words(questions, 'Type', target_column='last_word', min_num_samples=3)
 
     # Most common words for each class
-    words_by_class = {}
-    for question_type in question_types:
-        words_by_class[question_type] = questions.loc[questions['Type'] == question_type, 'Question'].str.lower().split()
-    print(words_by_class)
+    # words_by_class = {}
+    # for question_type in question_types:
+    #     words_by_class[question_type] = questions.loc[questions['Type'] == question_type, 'Question'].str.lower().split()
+    # print(words_by_class)
+
 
 if __name__ == '__main__':
     local_data_path = '../data/'
