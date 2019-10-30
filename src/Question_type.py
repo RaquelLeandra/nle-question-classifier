@@ -28,7 +28,7 @@ plt.show()
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-tfidf = TfidfVectorizer(sublinear_tf=True, min_df=5, norm='l2', encoding='latin-1', ngram_range=(1, 2), stop_words='english')
+tfidf = TfidfVectorizer(sublinear_tf=True, min_df=5, norm='l2', encoding='latin-1', ngram_range=(1, 2))
 
 features = tfidf.fit_transform(df.Question).toarray()
 labels = df.category_id
