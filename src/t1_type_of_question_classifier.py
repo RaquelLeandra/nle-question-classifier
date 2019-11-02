@@ -1,5 +1,6 @@
 import pandas as pd
 import seaborn as sns
+
 sns.set(style="darkgrid")
 
 from matplotlib import pyplot as plt
@@ -11,6 +12,7 @@ from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.svm import LinearSVC
+
 data_analysis_path = '../results/data_analysis/'
 
 
@@ -26,7 +28,8 @@ def train_model(model, X_train, X_test, y_train, y_test, category_id_df):
 
 
 def extract_features(df):
-    tfidf = TfidfVectorizer(sublinear_tf=True, min_df=5, norm='l2', encoding='latin-1', ngram_range=(1, 2))
+    tfidf = TfidfVectorizer(sublinear_tf=True, min_df=5, norm='l2', encoding='latin-1', ngram_range=(1, 2),)
+                            # stop_words='english')
     df['category_id'] = df['Type'].factorize()[0]
 
     category_id_df = df[['Type', 'category_id']].drop_duplicates().sort_values('category_id')
@@ -41,10 +44,10 @@ if __name__ == '__main__':
     features, labels, category_id_df = extract_features(df)
 
     X_train, X_test, y_train, y_test, indices_train, indices_test = train_test_split(features, labels, df.index,
-                                                                                     test_size=0.33, random_state=0)
+                                                                                     test_size=0.2,random_state=0)
 
     models = [
-        RandomForestClassifier(n_estimators=200, max_depth=500),
+        RandomForestClassifier(n_estimators=200),
         LinearSVC(),
         MultinomialNB(),
         LogisticRegression(random_state=0),
@@ -60,4 +63,5 @@ if __name__ == '__main__':
 
     sns.barplot(x=models_names, y=accuracies)
     plt.ylabel('Accuracies')
-    plt.savefig(data_analysis_path + 'barplot_' + 'baseline_models', bbox_inches='tight', dpi=200)
+    plt.ylim(0,1)
+    plt.savefig(data_analysis_path + 'barplot_' + 'baseline_models_with_stop_words', bbox_inches='tight', dpi=200)
