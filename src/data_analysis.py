@@ -5,6 +5,7 @@ from collections import Counter
 import pandas as pd
 import seaborn as sns
 from sklearn.model_selection import train_test_split
+from nltk.corpus import stopwords
 
 sns.set(style="darkgrid")
 
@@ -90,14 +91,19 @@ def most_common_words(questions, max_num_words=20):
     words_by_class = {}
     all_the_words = [clean_word(w) for s in
                      questions['Question'].values for w in s.split()]
+    word_set = set()
+
     most_common_words_from_all_types = [word for word, word_count in Counter(all_the_words).most_common(max_num_words)]
     print('Most common words in the whole dataset:\n', most_common_words_from_all_types)
     df_most_common = pd.DataFrame(0, index=most_common_words_from_all_types, columns=question_types)
+
     for question_type in question_types:
         word_list = [clean_word(w) for s in
                      questions.loc[questions['Type'] == question_type, 'Question'].values for w in s.split() if
                      clean_word(w) in most_common_words_from_all_types]
-
+        for word in word_list:
+            if word not in set(stopwords.words('english')):
+                word_set.add(word)
         count = Counter(word_list)
         words = list(count.keys())
         values = list(count.values())
@@ -108,24 +114,31 @@ def most_common_words(questions, max_num_words=20):
         words_by_class[question_type] = word_list
 
     print(df_most_common)
+    if max_num_words ==20:
+        stacked = df_most_common.stack().reset_index().rename(columns={0: 'value'})
 
-    stacked = df_most_common.stack().reset_index().rename(columns={0: 'value'})
+        x_size = max_num_words // 2
+        y_size = 4
+        plt.figure(figsize=[x_size, y_size])
+        barplot = sns.barplot(x=stacked['level_0'], y=stacked['value'], hue=stacked['level_1'])
+        barplot.axes.get_legend().set_title('Types')
+        plt.xlabel('Words')
+        plt.xticks(rotation=60)
+        plt.savefig(data_analysis_path + 'barplot_' + 'most_common_words_by_type', bbox_inches='tight', dpi=200)
 
-    x_size = max_num_words // 2
-    y_size = 4
-    plt.figure(figsize=[x_size, y_size])
-    barplot = sns.barplot(x=stacked['level_0'], y=stacked['value'], hue=stacked['level_1'])
-    barplot.axes.get_legend().set_title('Types')
-    plt.xlabel('Words')
-    plt.xticks(rotation=60)
-    plt.savefig(data_analysis_path + 'barplot_' + 'most_common_words_by_type', bbox_inches='tight', dpi=200)
+    print('Common words:', len(word_set))
+
+    with open('../data/medical_words.txt', 'w') as f:
+        for item in word_set:
+            f.write("%s\n" % item)
 
 
 def most_common_bigrams(questions, max_num_words=20):
     words_by_class = {}
     all_the_words = [clean_word(w) for s in
                      questions['Question'].values for w in s.split()]
-    most_common_words_from_all_types = [word for word, word_count in Counter(zip(all_the_words,all_the_words[1:])).most_common(max_num_words)]
+    most_common_words_from_all_types = [word for word, word_count in
+                                        Counter(zip(all_the_words, all_the_words[1:])).most_common(max_num_words)]
     print('Most common bigrams in the whole dataset:\n', most_common_words_from_all_types)
     df_most_common = pd.DataFrame(0, index=most_common_words_from_all_types, columns=question_types)
     for question_type in question_types:
@@ -135,13 +148,13 @@ def most_common_bigrams(questions, max_num_words=20):
         count = Counter(zip(word_list, word_list[1:]))
         words = list(count.keys())
         values = list(count.values())
-        for w, v in zip(words,values):
+        for w, v in zip(words, values):
             try:
                 df_most_common.loc[w, question_type] = v
             except:
                 pass
 
-        print('{}:'.format(question_type, len(Counter(word_list))), '\n',count.most_common(max_num_words),
+        print('{}:'.format(question_type, len(Counter(word_list))), '\n', count.most_common(max_num_words),
               '\n')
         words_by_class[question_type] = word_list
 
@@ -174,4 +187,5 @@ if __name__ == '__main__':
     test_df['Type'] = y_test
 
     print(X_train.shape, X_test.shape)
-    most_common_bigrams(train_df)
+    most_common_words(train_df,max_num_words=500)
+    # most_common_bigrams(train_df)
