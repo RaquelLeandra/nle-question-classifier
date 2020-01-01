@@ -40,6 +40,7 @@ def extract_features(df):
 
 if __name__ == '__main__':
     df = pd.read_excel('../data/Questions.xlsx')
+    print(df.shape)
 
     features, labels, category_id_df = extract_features(df)
 

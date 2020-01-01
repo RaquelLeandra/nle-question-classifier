@@ -1,6 +1,24 @@
 import pandas as pd
 df = pd.read_excel('data/Questions.xlsx')
 df.head()
+from sklearn.feature_extraction.text import TfidfVectorizer
+import matplotlib.pyplot as plt
+from sklearn.feature_selection import chi2
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.svm import LinearSVC
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+
+from sklearn.model_selection import cross_val_score
+from sklearn.metrics import confusion_matrix
+from sklearn import metrics
 
 df = df[pd.notnull(df['Question'])]
 
@@ -21,12 +39,12 @@ id_to_category = dict(category_id_df[['category_id', 'Type']].values)
 
 df.head()
 
-import matplotlib.pyplot as plt
+
 fig = plt.figure(figsize=(8,6))
 df.groupby('Type').Question.count().plot.bar(ylim=0)
 plt.show()
 
-from sklearn.feature_extraction.text import TfidfVectorizer
+
 
 tfidf = TfidfVectorizer(sublinear_tf=True, min_df=5, norm='l2', encoding='latin-1', ngram_range=(1, 2))
 
@@ -35,8 +53,7 @@ labels = df.category_id
 features.shape
 
 
-from sklearn.feature_selection import chi2
-import numpy as np
+
 
 N = 2
 for Type, category_id in sorted(category_to_id.items()):
@@ -53,10 +70,7 @@ for Type, category_id in sorted(category_to_id.items()):
 
 
 
-from sklearn.model_selection import train_test_split
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.feature_extraction.text import TfidfTransformer
-from sklearn.naive_bayes import MultinomialNB
+
 
 X_train, X_test, y_train, y_test = train_test_split(df['Question'], df['Type'], random_state = 0)
 count_vect = CountVectorizer()
@@ -80,12 +94,7 @@ df[df['Question'] == "This company refuses to provide me verification and valida
 
 df[df['Question'] == "I am disputing the inaccurate information the Chex-Systems has on my credit report. I initially submitted a police report on XXXX/XXXX/16 and Chex Systems only deleted the items that I mentioned in the letter and not all the items that were actually listed on the police report. In other words they wanted me to say word for word to them what items were fraudulent. The total disregard of the police report and what accounts that it states that are fraudulent. If they just had paid a little closer attention to the police report I would not been in this position now and they would n't have to research once again. I would like the reported information to be removed : XXXX XXXX XXXX"]
 
-from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.svm import LinearSVC
 
-from sklearn.model_selection import cross_val_score
 
 
 models = [
@@ -106,7 +115,7 @@ cv_df = pd.DataFrame(entries, columns=['model_name', 'fold_idx', 'accuracy'])
 
 
 
-import seaborn as sns
+
 
 sns.boxplot(x='model_name', y='accuracy', data=cv_df)
 sns.stripplot(x='model_name', y='accuracy', data=cv_df, 
@@ -117,7 +126,7 @@ plt.show()
 
 cv_df.groupby('model_name').accuracy.mean()
 
-from sklearn.model_selection import train_test_split
+
 
 model = LogisticRegression(random_state=0)
 
@@ -126,7 +135,7 @@ model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
 
 
-from sklearn.metrics import confusion_matrix
+
 
 conf_mat = confusion_matrix(y_test, y_pred)
 fig, ax = plt.subplots(figsize=(8,6))
@@ -175,6 +184,6 @@ for text, predicted in zip(texts, predictions):
   print("")
 
 
-from sklearn import metrics
+
 print(metrics.classification_report(y_test, y_pred, 
                                     target_names=df['Type'].unique()))
