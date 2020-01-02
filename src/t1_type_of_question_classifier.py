@@ -1,52 +1,54 @@
 import pandas as pd
 import seaborn as sns
 
-sns.set(style="darkgrid")
-
 from matplotlib import pyplot as plt
 from sklearn import metrics
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.svm import LinearSVC
 
+sns.set(style="darkgrid")
+
 data_analysis_path = '../results/data_analysis/'
 
 
-def train_model(model, X_train, X_test, y_train, y_test, category_id_df):
+def train_model(model, X_train, X_test, y_train, y_test):
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
 
-    conf_mat = confusion_matrix(y_test, y_pred)
     print(metrics.classification_report(y_test, y_pred,
                                         target_names=df['Type'].unique()))
     acc = model.score(X_test, y_test)
     return acc
 
 
-def extract_features(df):
+def extract_features(X_train, X_test):
     tfidf = TfidfVectorizer(sublinear_tf=True, max_features=900, min_df=5, norm='l2', encoding='latin-1',
                             ngram_range=(1, 2), )
-    df['category_id'] = df['Type'].factorize()[0]
-
-    category_id_df = df[['Type', 'category_id']].drop_duplicates().sort_values('category_id')
-    features = tfidf.fit_transform(df.Question).toarray()
-    print(features.shape)
-    labels = df.category_id
-    return features, labels, category_id_df
+    tfidf.fit(X_train)
+    features_train = tfidf.transform(X_train).toarray()
+    features_test = tfidf.transform(X_test).toarray()
+    return features_train, features_test
 
 
 if __name__ == '__main__':
     df = pd.read_excel('../data/Questions.xlsx')
     print(df.shape)
+    type_to_category = {'summary': 0, 'list': 1, 'yesno': 2, 'factoid': 3}
 
-    features, labels, category_id_df = extract_features(df)
+    apply_type_to_category = lambda t: type_to_category[t]
 
-    X_train, X_test, y_train, y_test, indices_train, indices_test = train_test_split(features, labels, df.index,
+    df['category_id'] = df['Type'].apply(apply_type_to_category)
+
+    print(df)
+
+    X_train, X_test, y_train, y_test, indices_train, indices_test = train_test_split(df['Question'], df['category_id'],
+                                                                                     df.index,
                                                                                      test_size=0.2, random_state=0)
+    features_train, features_test = extract_features(X_train, X_test)
 
     models = [
         RandomForestClassifier(n_estimators=200),
@@ -60,7 +62,7 @@ if __name__ == '__main__':
 
     for model, model_name in zip(models, models_names):
         print(model_name)
-        acc = train_model(model, X_train, X_test, y_train, y_test, category_id_df)
+        acc = train_model(model, features_train, features_test, y_train, y_test)
         accuracies.append(acc)
 
     sns.barplot(x=models_names, y=accuracies)
