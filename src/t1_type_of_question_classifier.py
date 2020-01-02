@@ -28,12 +28,13 @@ def train_model(model, X_train, X_test, y_train, y_test, category_id_df):
 
 
 def extract_features(df):
-    tfidf = TfidfVectorizer(sublinear_tf=True, min_df=5, norm='l2', encoding='latin-1', ngram_range=(1, 2),)
-                            # stop_words='english')
+    tfidf = TfidfVectorizer(sublinear_tf=True, max_features=900, min_df=5, norm='l2', encoding='latin-1',
+                            ngram_range=(1, 2), )
     df['category_id'] = df['Type'].factorize()[0]
 
     category_id_df = df[['Type', 'category_id']].drop_duplicates().sort_values('category_id')
     features = tfidf.fit_transform(df.Question).toarray()
+    print(features.shape)
     labels = df.category_id
     return features, labels, category_id_df
 
@@ -45,7 +46,7 @@ if __name__ == '__main__':
     features, labels, category_id_df = extract_features(df)
 
     X_train, X_test, y_train, y_test, indices_train, indices_test = train_test_split(features, labels, df.index,
-                                                                                     test_size=0.2,random_state=0)
+                                                                                     test_size=0.2, random_state=0)
 
     models = [
         RandomForestClassifier(n_estimators=200),
@@ -64,5 +65,5 @@ if __name__ == '__main__':
 
     sns.barplot(x=models_names, y=accuracies)
     plt.ylabel('Accuracies')
-    plt.ylim(0,1)
+    plt.ylim(0, 1)
     plt.savefig(data_analysis_path + 'barplot_' + 'baseline_models_with_stop_words', bbox_inches='tight', dpi=200)
