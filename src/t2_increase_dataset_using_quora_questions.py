@@ -25,17 +25,12 @@ def check_med_words_in_question(question):
 
 
 def filter_using_medical_words(df):
-    question_index_with_med_words = []
-
     q1_bool = df['question1'].apply(check_med_words_in_question)
     q2_bool = df['question2'].apply(check_med_words_in_question)
 
     df['medical_questions'] = q1_bool | q2_bool
-
-    print(df['medical_questions'].values.sum())
-
-    df.to_csv(os.path.join(data_path,'quora_with_med_questions.csv'))
-    # return df[question_index_with_med_words]
+    print('Number of found medical questions:', df['medical_questions'].values.sum())
+    df.to_csv(os.path.join(data_path, 'quora_with_med_questions.csv'))
 
 
 if __name__ == '__main__':
