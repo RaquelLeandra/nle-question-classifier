@@ -1,4 +1,3 @@
-Time Preprocessing: 0:29:59.079974
  Random Forest
 Classification Report:              precision    recall  f1-score   support
 
@@ -95,3 +94,4 @@ Time training: 0:06:49.503774
  
 --------------------------------------------------------------------------------
 
+Time Preprocessing: 0:29:59.079974
