@@ -1,0 +1,97 @@
+ Random Forest
+Classification Report:              precision    recall  f1-score   support
+
+     summary       0.62      0.79      0.70       108
+        list       0.79      0.56      0.65        79
+       yesno       0.79      1.00      0.89       124
+     factoid       0.81      0.59      0.68       140
+
+    accuracy                           0.75       451
+   macro avg       0.75      0.73      0.73       451
+weighted avg       0.76      0.75      0.74       451
+
+Time training: 0:01:44.910492
+ 
+--------------------------------------------------------------------------------
+
+LinearSVC
+Classification Report:              precision    recall  f1-score   support
+
+     summary       0.70      0.81      0.76       108
+        list       0.82      0.65      0.72        79
+       yesno       0.83      1.00      0.91       124
+     factoid       0.83      0.68      0.75       140
+
+    accuracy                           0.79       451
+   macro avg       0.80      0.78      0.78       451
+weighted avg       0.80      0.79      0.79       451
+
+Time training: 0:00:04.482649
+ 
+--------------------------------------------------------------------------------
+
+Multinomial
+Classification Report:              precision    recall  f1-score   support
+
+     summary       0.53      0.93      0.67       108
+        list       0.90      0.23      0.36        79
+       yesno       0.84      0.98      0.90       124
+     factoid       0.77      0.52      0.62       140
+
+    accuracy                           0.69       451
+   macro avg       0.76      0.66      0.64       451
+weighted avg       0.75      0.69      0.67       451
+
+Time training: 0:00:00.297195
+ 
+--------------------------------------------------------------------------------
+
+LogisticRegression
+Classification Report:              precision    recall  f1-score   support
+
+     summary       0.70      0.81      0.76       108
+        list       0.85      0.63      0.72        79
+       yesno       0.81      1.00      0.89       124
+     factoid       0.85      0.69      0.76       140
+
+    accuracy                           0.79       451
+   macro avg       0.80      0.78      0.78       451
+weighted avg       0.80      0.79      0.79       451
+
+Time training: 0:00:04.131647
+ 
+--------------------------------------------------------------------------------
+
+Voting Classifier
+Classification Report:              precision    recall  f1-score   support
+
+     summary       0.70      0.81      0.76       108
+        list       0.85      0.63      0.72        79
+       yesno       0.81      1.00      0.89       124
+     factoid       0.85      0.69      0.76       140
+
+    accuracy                           0.79       451
+   macro avg       0.80      0.78      0.78       451
+weighted avg       0.80      0.79      0.79       451
+
+Time training: 0:02:56.166048
+ 
+--------------------------------------------------------------------------------
+
+MLP default
+Classification Report:              precision    recall  f1-score   support
+
+     summary       0.72      0.82      0.77       108
+        list       0.76      0.66      0.71        79
+       yesno       0.85      0.99      0.92       124
+     factoid       0.81      0.66      0.73       140
+
+    accuracy                           0.79       451
+   macro avg       0.79      0.78      0.78       451
+weighted avg       0.79      0.79      0.79       451
+
+Time training: 0:06:49.503774
+ 
+--------------------------------------------------------------------------------
+
+Time Preprocessing: 0:29:59.079974

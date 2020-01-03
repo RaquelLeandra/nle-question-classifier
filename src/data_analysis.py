@@ -175,8 +175,18 @@ def most_common_bigrams(questions, max_num_words=20):
 
 
 if __name__ == '__main__':
+<<<<<<< HEAD
     questions = pd.read_csv('../data/All_Questions.csv', index_col=0)
     print(questions.columns)
+=======
+    local_data_path = '../data/'
+    # questions_path = os.path.join(local_data_path, 'Questions.xlsx')
+    # questions = pd.read_excel(questions_path)
+    dataset_name = 'whole_quora'
+    questions = pd.read_csv('../data/{}.csv'.format(dataset_name), index_col=0)
+    questions = questions.dropna()
+
+>>>>>>> 399a582e84116aabc6af193bc20cd0f65c390952
     y = questions['Type'].values
     X = questions['Question'].values
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y)

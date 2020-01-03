@@ -46,7 +46,7 @@ if __name__ == '__main__':
     df = pd.read_excel('../data/Questions.xlsx')
     quora_df = pd.read_csv('../data/quora_with_med_questions.csv')
 
-    quora_df = quora_df.loc[quora_df['medical_questions'].tolist(), :]
+    # quora_df = quora_df.loc[quora_df['medical_questions'].tolist(), :]
     # quora_df = quora_df.iloc[0:10000, :]
     print(df.shape)
     print(quora_df.shape)
@@ -99,4 +99,4 @@ if __name__ == '__main__':
 
     print('Time saving questions into dataset: ', timedelta(seconds=time() - initial_time))
 
-    all_questions.to_csv('../data/All_Questions.csv')
+    all_questions.to_csv('../data/whole_quora.csv')
