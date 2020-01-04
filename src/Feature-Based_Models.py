@@ -6,7 +6,9 @@ import nltk
 nltk.download('stopwords')
 from nltk.corpus import stopwords
 from src.data_analysis import clean_word
+#from src.t1_type_of_question_classifier import train_model
 from matplotlib import pyplot as plt
+from sklearn.svm import LinearSVC
 question_types = ['summary', 'list', 'yesno', 'factoid']
 
 def get_first_element(phrase):
@@ -73,35 +75,69 @@ def important_words(questions, max_num_words=100):
 def check_word_exists_in(phrase,important_word):
         return important_word in phrase.split()
 
+def train_model(model, X_train, X_test, y_train, y_test, target_names=['summary', 'list', 'yesno', 'factoid']):
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+    #cr = metrics.classification_report(y_test, y_pred,
+     #                                  target_names=target_names)
+    #print(cr)
+    acc = model.score(X_test, y_test)
+    return acc
+
 if __name__ == '__main__':
     questions = pd.read_excel('../data/Questions.xlsx')
-    print(questions.columns)
     features=pd.DataFrame()
+    features_train=pd.DataFrame()
+    features_test = pd.DataFrame()
+    #Shuffle questions dataset
+    questions=questions.sample(frac=1)
+    questions_train = questions.iloc[:round(0.8 * questions.shape[0]),:]
+    questions_test = questions.iloc[round(0.8 * questions.shape[0]):, :]
     # First word
-    features['first_word'] = questions['Question'].apply(get_first_element)
+    features_train['first_word'] = questions_train['Question'].apply(get_first_element)
+    features_test['first_word'] = questions_test['Question'].apply(get_first_element)
 
     # Last word
-    features['last_word'] = questions['Question'].apply(get_last_element)
+    features_train['last_word'] = questions_train['Question'].apply(get_last_element)
+    features_test['last_word'] = questions_test['Question'].apply(get_last_element)
 
     # Has question mark?
-    features['has_question_mark'] = features['last_word'].apply(get_question_mark)
+    features_train['has_question_mark'] = features_train['last_word'].apply(get_question_mark)*1
+    features_test['has_question_mark'] = features_test['last_word'].apply(get_question_mark)*1
 
     # Last word without question mark
-    features['last_word'] = features['last_word'].apply(remove_question_mark)
+    features_train['last_word'] = features_train['last_word'].apply(remove_question_mark)
+    features_test['last_word'] = features_test['last_word'].apply(remove_question_mark)
 
     # Get average length of the dataset
-    average_len = questions['Question'].apply(get_length_phrase).mean()
+    average_len_train = questions_train['Question'].apply(get_length_phrase).mean()
 
     #classify phrase into short, long
-    features['long_phrase'] = questions['Question'].apply(get_length_phrase)>average_len
+    features_train['long_phrase'] = questions_train['Question'].apply(get_length_phrase)>average_len_train*1
+    features_test['long_phrase'] = questions_test['Question'].apply(get_length_phrase) > average_len_train*1
 
     #iImportant words
-    important_words=important_words(questions)
+    important_words=important_words(questions_train)
     for important_word in important_words:
-        features[important_word] = questions['Question'].apply(check_word_exists_in, important_word=important_word)
+        features_train[important_word] = questions_train['Question'].apply(check_word_exists_in, important_word=important_word)*1
+        features_test[important_word] = questions_test['Question'].apply(check_word_exists_in, important_word=important_word)*1
 
+    #Train first and last words to one hot
+    one_hot_train = pd.get_dummies(features_train['first_word'],prefix='first_word').join(pd.get_dummies(features_train['last_word'],prefix='last_word'))
+    features_train = features_train.drop(['first_word','last_word'], axis=1)
+    features_train.join(one_hot_train)
+    #Test first and last words to one hot
+    one_hot_test = pd.get_dummies(features_test['first_word'],prefix='first_word').join(pd.get_dummies(features_test['last_word'],prefix='last_word'))
+    features_test = features_test.drop(['first_word','last_word'], axis=1)
+    features_test.join(one_hot_test)
 
-    y = questions['Type'].values
-    X = features['first_word'].values
-    print(features)
-    print(average_len)
+    X_train = features_train.values
+    y_train = questions_train['Type'].values
+    X_test = features_test.values
+    y_test = questions_test['Type'].values
+
+    print(X_train)
+    print(y_train)
+    model = LinearSVC()
+    acc = train_model(model, X_train, X_test, y_train, y_test)
+    print(acc)
