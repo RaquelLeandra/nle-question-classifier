@@ -85,7 +85,7 @@ if __name__ == '__main__':
         'LogisticRegression',
         'Voting Classifier',
         'MLP default']
-    preprocessing = False
+    preprocessing = True
 
     accuracies = []
     with open(os.path.join(results_path, '{}{}.txt'.format(dataset_name, '_preprocessing' if preprocessing else '')),
