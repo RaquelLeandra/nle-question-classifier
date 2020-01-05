@@ -14,7 +14,7 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.neural_network import MLPClassifier
 from sklearn.svm import LinearSVC
 
-from src.t1_type_of_question_classifier import extract_features, train_model
+from src.t1_type_of_question_classifier import extract_tfidf, train_model
 
 sns.set(style="darkgrid")
 
@@ -36,7 +36,7 @@ def split_and_extract_features(df, preprocessing):
     x_train = np.append(x_train_original.values, x_quora.values)
     y_train = np.append(y_train_original, y_quora)
 
-    features_train, features_test = extract_features(x_train, x_test, preprocessing)
+    features_train, features_test = extract_tfidf(x_train, x_test, preprocessing)
 
     return features_train, features_test, y_train, y_test
 

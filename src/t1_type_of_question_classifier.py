@@ -18,6 +18,7 @@ from sklearn.svm import LinearSVC
 import spacy
 
 nlp = spacy.load("en_ner_bionlp13cg_md")
+lemmatizer = spacy.load("en_core_web_sm")
 
 sns.set(style="darkgrid")
 
@@ -64,16 +65,22 @@ def replace_syndrome(s):
         pass
     return s
 
+def lemmatize(s):
+    s = lemmatizer(s)
+    lemmas = [token.lemma_ for token in s]
+    s = ' '.join([w for w in lemmas])
+    return s
 
 def preprocessor(question):
     processed_question = perform_NER(question)
     processed_question = remove_symbols(processed_question)
     processed_question = replace_syndrome(processed_question)
+    # processed_question = lemmatize(processed_question)
     # print('\nOriginal:', question, '\nProcessed:', processed_question, '\n')
     return processed_question
 
 
-def extract_features(X_train, X_test, preprocessing=False):
+def extract_tfidf(X_train, X_test, preprocessing=False):
     if preprocessing:
         tfidf = TfidfVectorizer(sublinear_tf=True,
                                 preprocessor=preprocessor,
@@ -86,7 +93,7 @@ def extract_features(X_train, X_test, preprocessing=False):
                                 max_features=900,
                                 min_df=5, norm='l2',
                                 encoding='latin-1',
-                                ngram_range=(1, 2), )
+                                ngram_range=(1, 2))
     tfidf.fit(X_train)
     features_train = tfidf.transform(X_train).toarray()
     features_test = tfidf.transform(X_test).toarray()
@@ -106,7 +113,7 @@ if __name__ == '__main__':
                                                                                      df.index,
                                                                                      test_size=0.2, random_state=0)
     preprocessing = True
-    features_train, features_test = extract_features(X_train, X_test, preprocessing=preprocessing)
+    features_train, features_test = extract_tfidf(X_train, X_test, preprocessing=preprocessing)
     voting_estimators = [
         ('Random Forest', RandomForestClassifier(n_estimators=200, n_jobs=-1, class_weight='balanced')),
         ('LinearSVC', LinearSVC(class_weight='balanced')),
