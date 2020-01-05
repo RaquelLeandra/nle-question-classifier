@@ -1,96 +1,96 @@
 Random Forest
 Classification Report:              precision    recall  f1-score   support
 
-     summary       0.70      0.58      0.63       111
-        list       0.71      0.72      0.71       111
-       yesno       0.65      0.65      0.65        98
-     factoid       0.83      0.94      0.88       130
+     summary       0.79      0.56      0.65       140
+        list       0.71      0.81      0.76        79
+       yesno       0.69      0.71      0.70       108
+     factoid       0.81      0.98      0.89       124
 
-    accuracy                           0.73       450
-   macro avg       0.72      0.72      0.72       450
-weighted avg       0.73      0.73      0.73       450
+    accuracy                           0.76       451
+   macro avg       0.75      0.77      0.75       451
+weighted avg       0.76      0.76      0.75       451
 
-Time training: 0:00:00.491151
+Time training: 0:00:00.497543
  
 --------------------------------------------------------------------------------
 
 LinearSVC
 Classification Report:              precision    recall  f1-score   support
 
-     summary       0.64      0.68      0.66       111
-        list       0.70      0.81      0.75       111
-       yesno       0.70      0.39      0.50        98
-     factoid       0.83      0.95      0.88       130
+     summary       0.66      0.68      0.67       140
+        list       0.67      0.81      0.73        79
+       yesno       0.64      0.40      0.49       108
+     factoid       0.85      0.98      0.91       124
 
-    accuracy                           0.73       450
-   macro avg       0.72      0.71      0.70       450
-weighted avg       0.72      0.73      0.71       450
+    accuracy                           0.72       451
+   macro avg       0.70      0.72      0.70       451
+weighted avg       0.71      0.72      0.70       451
 
-Time training: 0:00:00.079427
+Time training: 0:00:00.077375
  
 --------------------------------------------------------------------------------
 
 Multinomial
 Classification Report:              precision    recall  f1-score   support
 
-     summary       0.52      0.72      0.60       111
-        list       0.73      0.65      0.69       111
-       yesno       0.74      0.40      0.52        98
-     factoid       0.81      0.89      0.85       130
+     summary       0.61      0.67      0.64       140
+        list       0.71      0.82      0.76        79
+       yesno       0.65      0.39      0.49       108
+     factoid       0.81      0.92      0.86       124
 
-    accuracy                           0.68       450
-   macro avg       0.70      0.66      0.66       450
-weighted avg       0.70      0.68      0.68       450
+    accuracy                           0.70       451
+   macro avg       0.69      0.70      0.69       451
+weighted avg       0.69      0.70      0.69       451
 
-Time training: 0:00:00.017825
+Time training: 0:00:00.019622
  
 --------------------------------------------------------------------------------
 
 LogisticRegression
 Classification Report:              precision    recall  f1-score   support
 
-     summary       0.64      0.68      0.66       111
-        list       0.71      0.81      0.76       111
-       yesno       0.73      0.39      0.51        98
-     factoid       0.81      0.95      0.88       130
+     summary       0.64      0.66      0.65       140
+        list       0.72      0.82      0.77        79
+       yesno       0.71      0.44      0.54       108
+     factoid       0.81      0.98      0.89       124
 
-    accuracy                           0.73       450
-   macro avg       0.72      0.71      0.70       450
-weighted avg       0.73      0.73      0.71       450
+    accuracy                           0.73       451
+   macro avg       0.72      0.73      0.71       451
+weighted avg       0.72      0.73      0.71       451
 
-Time training: 0:00:00.037788
+Time training: 0:00:00.061729
  
 --------------------------------------------------------------------------------
 
 Voting Classifier
 Classification Report:              precision    recall  f1-score   support
 
-     summary       0.65      0.69      0.67       111
-        list       0.71      0.81      0.76       111
-       yesno       0.73      0.39      0.51        98
-     factoid       0.82      0.95      0.88       130
+     summary       0.65      0.67      0.66       140
+        list       0.72      0.81      0.76        79
+       yesno       0.68      0.44      0.54       108
+     factoid       0.84      0.99      0.91       124
 
-    accuracy                           0.73       450
-   macro avg       0.73      0.71      0.70       450
-weighted avg       0.73      0.73      0.72       450
+    accuracy                           0.73       451
+   macro avg       0.72      0.73      0.72       451
+weighted avg       0.72      0.73      0.72       451
 
-Time training: 0:00:01.203991
+Time training: 0:00:01.175282
  
 --------------------------------------------------------------------------------
 
 MLP default
 Classification Report:              precision    recall  f1-score   support
 
-     summary       0.78      0.63      0.70       111
-        list       0.72      0.73      0.72       111
-       yesno       0.62      0.65      0.64        98
-     factoid       0.83      0.92      0.88       130
+     summary       0.75      0.59      0.66       140
+        list       0.69      0.81      0.74        79
+       yesno       0.66      0.66      0.66       108
+     factoid       0.84      0.96      0.90       124
 
-    accuracy                           0.74       450
-   macro avg       0.74      0.73      0.73       450
-weighted avg       0.74      0.74      0.74       450
+    accuracy                           0.75       451
+   macro avg       0.74      0.75      0.74       451
+weighted avg       0.74      0.75      0.74       451
 
-Time training: 0:00:01.897482
+Time training: 0:00:02.108293
  
 --------------------------------------------------------------------------------
 
