@@ -62,26 +62,26 @@ def check_word_exists_in(phrase, important_word):
 
 
 def run_all_experiments(results_path, features_train, y_train, features_test, y_test, preprocessing=False):
-    voting_estimators = [
-        ('Random Forest', RandomForestClassifier(n_estimators=200, n_jobs=-1, class_weight='balanced')),
-        ('LinearSVC', LinearSVC(class_weight='balanced')),
-        ('LogisticRegression', LogisticRegression(class_weight='balanced'))
-    ]
+    # voting_estimators = [
+    #     ('Random Forest', RandomForestClassifier(n_estimators=200, n_jobs=-1, class_weight='balanced')),
+    #     ('LinearSVC', LinearSVC(class_weight='balanced')),
+    #     ('LogisticRegression', LogisticRegression(class_weight='balanced'))
+    # ]
     models = [
-        RandomForestClassifier(n_estimators=200, n_jobs=-1, class_weight='balanced'),
-        LinearSVC(class_weight='balanced'),
-        MultinomialNB(),
-        LogisticRegression(class_weight='balanced'),
-        VotingClassifier(estimators=voting_estimators),
+        # RandomForestClassifier(n_estimators=200, n_jobs=-1, class_weight='balanced'),
+        # LinearSVC(class_weight='balanced'),
+        # MultinomialNB(),
+        # LogisticRegression(class_weight='balanced'),
+        # VotingClassifier(estimators=voting_estimators),
         MLPClassifier(hidden_layer_sizes=100)
     ]
-    models_names = ['Random Forest', 'LinearSVC', 'Multinomial', 'LogisticRegression', 'Voting Classifier',
+    models_names = [#'Random Forest', 'LinearSVC', 'Multinomial', 'LogisticRegression', 'Voting Classifier',
                     'MLP default', ]
 
     accuracies = []
     with open(os.path.join(results_path,
                            'features_{}{}.txt'.format(dataset_name, '_preprocessing' if preprocessing else '')),
-              'w') as f:
+              'a') as f:
         for model, model_name in zip(models, models_names):
             print(model_name)
             initial_time = time()

@@ -1,0 +1,63 @@
+Random Forest
+Classification Report:              precision    recall  f1-score   support
+
+     summary       0.81      0.65      0.72       140
+        list       0.74      0.68      0.71        79
+       yesno       0.65      0.82      0.73       108
+     factoid       0.95      0.98      0.96       124
+
+    accuracy                           0.79       451
+   macro avg       0.79      0.79      0.78       451
+weighted avg       0.80      0.79      0.79       451
+
+Time training: 0:05:47.039955
+ 
+--------------------------------------------------------------------------------
+
+LinearSVC
+Classification Report:              precision    recall  f1-score   support
+
+     summary       0.82      0.71      0.76       140
+        list       0.79      0.68      0.73        79
+       yesno       0.69      0.82      0.75       108
+     factoid       0.92      0.99      0.95       124
+
+    accuracy                           0.81       451
+   macro avg       0.81      0.80      0.80       451
+weighted avg       0.81      0.81      0.81       451
+
+Time training: 0:01:01.142645
+ 
+--------------------------------------------------------------------------------
+
+Multinomial
+Classification Report:              precision    recall  f1-score   support
+
+     summary       0.89      0.40      0.55       140
+        list       0.84      0.20      0.33        79
+       yesno       0.32      0.94      0.47       108
+     factoid       0.73      0.29      0.42       124
+
+    accuracy                           0.46       451
+   macro avg       0.70      0.46      0.44       451
+weighted avg       0.70      0.46      0.46       451
+
+Time training: 0:00:06.675328
+ 
+--------------------------------------------------------------------------------
+
+LogisticRegression
+Classification Report:              precision    recall  f1-score   support
+
+     summary       0.83      0.72      0.77       140
+        list       0.79      0.68      0.73        79
+       yesno       0.70      0.82      0.76       108
+     factoid       0.92      0.99      0.95       124
+
+    accuracy                           0.81       451
+   macro avg       0.81      0.81      0.80       451
+weighted avg       0.82      0.81      0.81       451
+
+Time training: 0:00:23.516476
+ 
+--------------------------------------------------------------------------------
