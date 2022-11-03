@@ -1,3 +1,3 @@
-# nle-question-classifier
+# BioAsQ challenge: Task B6
 
-Question classifier project from the human language engineering subject (MAI)
+Authors:
